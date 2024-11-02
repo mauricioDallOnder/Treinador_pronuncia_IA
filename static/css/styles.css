@@ -1,0 +1,74 @@
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background-color: #4158D0;
+  max-width: 100%;
+  margin: 0;
+  padding: 20px;
+  background-image: url('https://firebasestorage.googleapis.com/v0/b/mauriciodallonder-64688.appspot.com/o/bandeira.jpg?alt=media&token=93383751-b852-4b4a-89e9-82037c09f9da');
+  background-size: cover;
+  background-attachment: fixed;
+}
+.container {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  padding: 20px;
+  margin-top: 20px;
+}
+.main-content, .feedback-box {
+  margin-bottom: 20px;
+}
+.word {
+  cursor: pointer;
+  margin-right: 5px;
+  padding: 5px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+}
+.separator {
+  color: red;
+  margin-right: 5px;
+}
+.incorrect {
+  color: red;
+}
+.correct {
+  color: green;
+}
+.btn-speak {
+  display: block;
+  margin-top: 10px;
+  width: 100%;
+}
+.recording {
+  color: red;
+}
+.uploading-message {
+  display: none;
+  color: red;
+}
+@media (min-width: 768px) {
+  .flex-md-row {
+      display: flex;
+      justify-content: space-between;
+  }
+  .main-content {
+      flex: 0 0 65%;
+  }
+  .feedback-box {
+      flex: 0 0 30%;
+      margin-left: 20px;
+      border: 2px solid #3b5998;
+      border-radius: 10px;
+      padding: 20px;
+  }
+}
+
+.categoryProgress{
+  font-size: 24px;
+  font-weight: bold;
+  color: black;
+}
