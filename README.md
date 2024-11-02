@@ -40,12 +40,12 @@ Pronunciation Trainer AI is a web application designed to help users improve the
 
 2. **Install the required packages**:
     ```bash
-    pip install -r requirements.txt
+    pip3 install -r requirements.txt
     ```
 
 3. **Run the Flask application**:
     ```bash
-    python main.py
+    python3 main.py
     ```
 
 4. **Access the application**:
