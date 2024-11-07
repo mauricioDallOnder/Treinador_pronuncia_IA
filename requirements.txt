@@ -19,3 +19,5 @@ librosa
 soxr
 Levenshtein
 matplotlib
+jellyfish
+SentencePiece
