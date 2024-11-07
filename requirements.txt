@@ -17,6 +17,7 @@ noisereduce
 pydub
 librosa
 soxr
+sacremoses
 Levenshtein
 matplotlib
 jellyfish
