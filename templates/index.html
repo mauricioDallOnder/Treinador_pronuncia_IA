@@ -159,10 +159,10 @@
             let pronunciation = window.pronunciations[word];
             if (pronunciation) {
                 document.getElementById('feedbackContent').innerHTML = `
-                    <strong>Palavra:</strong> ${word}<br>
-                    <strong>Ppronuncia correta:</strong> ${pronunciation.correct}<br>
-                    <strong>Sua pronuncia:</strong> ${pronunciation.user || 'N/A'}
-                    <button class="btn btn-sm btn-info btn-speak" onclick="speakWord('${word}')">Escutar a pronuncia</button>
+                    <strong>Mot::</strong> ${word}<br>
+                    <strong>Prononciation correct:</strong> ${pronunciation.correct}<br>
+                    <strong>Votre Prononciation:</strong> ${pronunciation.user || 'N/A'}
+                    <button class="btn btn-sm btn-info btn-speak" onclick="speakWord('${word}')">Écuter la prononciation</button>
                 `;
             }
         }
@@ -170,7 +170,7 @@
         function translateText() {
             let text = document.getElementById('text').value;
             disableButtons();
-            showMessage('Tradução em curso...');
+            showMessage('Traduction en cours...');
 
             fetch('/translate', {
                 method: 'POST',
@@ -198,7 +198,7 @@
         function speakText() {
             let text = document.getElementById('text').value;
             disableButtons();
-            showMessage('Lendo o texto...');
+            showMessage('Lecture du texte en cours...');
 
             fetch('/speak', {
                 method: 'POST',
@@ -322,7 +322,7 @@
                     if (e.lengthComputable) {
                         let percentComplete = (e.loaded / e.total) * 100;
                         document.getElementById('uploadProgress').value = percentComplete;
-                        document.getElementById('uploadingText').innerText = `Enviando audio... ${Math.round(percentComplete)}.`;
+                        document.getElementById('uploadingText').innerText = `Envoi de l’audio... ${Math.round(percentComplete)}% terminé.`;
 
                     }
                 });
@@ -438,9 +438,9 @@
                     } else {
                         let progress = progressData[category];
                         if (progress) {
-                            document.getElementById('categoryProgress').innerText = ``;
+                            document.getElementById('categoryProgress').innerText = `vous avez complété ${progress.sentences_done} de ${progress.total_sentences} phrases dans cette catégorie.`;
                         } else {
-                            document.getElementById('categoryProgress').innerText = ``;
+                            document.getElementById('categoryProgress').innerText = `vous avez complété 0 de ${progressData[category].total_sentences} phrases dans cette catégorie.`;
                         }
                     }
                 });
@@ -458,39 +458,44 @@
 
 
         function generateSentence() {
-            let category = document.getElementById('category').value;
-            disableButtons();
-            showMessage('Criando a frase aguarde...');
+        let category = document.getElementById('category').value;
+        disableButtons();
+        showMessage('Génération de la phrase en cours...');
 
-            fetch('/get_sentence', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: 'category=' + encodeURIComponent(category)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.error) {
-                        alert(data.error);
-                    } else if (data.message) {
-                        alert(`${data.message}\nTaxa média de acerto na pronúncia: ${data.average_ratio}%\nTaxa média de completude: ${data.average_completeness}%`);
-                    } else {
-                        document.getElementById('text').value = data.en_sentence;
-                        document.getElementById('text').dataset.category = data.category;
-                        fetchPronunciation(data.en_sentence);
-                        updateCategoryProgress();
-                    }
-                })
-                .catch(error => {
-                    console.error('Erro:', error);
-                    alert('Ocorreu um erro ao gerar a frase.');
-                })
-                .finally(() => {
-                    enableButtons();
-                    hideMessage();
-                });
-        }
+        fetch('/get_sentence', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'category=' + encodeURIComponent(category)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro na resposta da API');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                alert(data.error);
+            } else if (data.message) {
+                alert(`${data.message}\nTaux moyen de réussite de la prononciation : ${data.average_ratio}%\nTaux moyen de complétude : ${data.average_completeness}%`);
+            } else {
+                document.getElementById('text').value = data.fr_sentence;
+                document.getElementById('text').dataset.category = data.category;
+                fetchPronunciation(data.fr_sentence);
+                updateCategoryProgress();
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            alert('Une erreur est survenue lors de la génération de la phrase.');
+        })
+        .finally(() => {
+            enableButtons();
+            hideMessage();
+        });
+    }
 
 
         document.addEventListener('click', function (event) {
@@ -498,7 +503,6 @@
                 showPronunciation(event.target.innerText);
             }
         });
-
 
     </script>
 </body>
