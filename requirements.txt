@@ -21,3 +21,4 @@ Levenshtein
 matplotlib
 jellyfish
 SentencePiece
+pronouncing
