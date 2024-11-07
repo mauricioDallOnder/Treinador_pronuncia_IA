@@ -13,81 +13,75 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="flex-md-row">
-            <div class="main-content">
-                <h1 class="mb-4">Treinador de pronuncia com IA</h1>
-                <p id="categoryProgress" class="mt-3"></p>
-                <div class="mb-3">
-                    <label for="text" class="form-label">Escreva ou gere uma frase abaixo :</label>
-                    <textarea class="form-control" id="text" name="text"></textarea>
-                    <div class="mt-3">
-                        <label for="translation" class="form-label">Tradução:</label>
-                        <p id="translation"></p>
-                    </div>
-                    <div class="pronunciation-feedback mt-4">
-                        <label for="translation" class="form-label">Pronuncia:</label>
-                        <h3 id="pronunciation"></h3>
-                    </div>
+   <div class="container">
+    <div class="flex-md-row">
+        <div class="main-content">
+            <h1 class="mb-4">Treinador de Pronúncia com IA</h1>
+            <p id="categoryProgress" class="mt-3"></p>
+            <div class="mb-3">
+                <label for="text" class="form-label">Escreva ou gere um texto abaixo:</label>
+                <textarea class="form-control" id="text" name="text"></textarea>
+                <div class="mt-3">
+                    <label for="translation" class="form-label">Tradução:</label>
+                    <p id="translation"></p>
                 </div>
-                <div class="mb-3">
-                    <label for="category" class="form-label">Selecione a categoria :</label>
-                    <select class="form-select" id="category" name="category">
-                        <option value="random">Frases Aleatório</option>
-                        <option value="Verbos de Cozinha">Verbos de Cozinha</option>
-                        <option value="Verbos com Santé">Verbos de Saúde</option>
-                        <option value="Dans le sport">Verbos do Esporte</option>
-                        <option value="À la recherche d'un appartement à louer">À procura de um apartamento para alugar
-                        </option>
-                        <option value="À la pharmacie">Na farmácia</option>
-                        <option value="À la salle de sport">Na academia</option>
-                        <option value="Au supermarché">No supermercado</option>
-                        <option value="Achetant des vêtements">Comprando roupas</option>
-                        <option value="Au restaurant - Commander de la nourriture">No restaurante - Pedindo comida
-                        </option>
-                        <option value="Chez le coiffeur">No cabeleireiro</option>
-                        <option value="Réserver un hôtel">Reservar um hotel</option>
-                        <option value="entretien d'embauche">Entrevista de emprego</option>
-
-                    </select>
+                <div class="pronunciation-feedback mt-4">
+                    <label for="translation" class="form-label">Pronúncia:</label>
+                    <h3 id="pronunciation"></h3>
                 </div>
+            </div>
+            <div class="mb-3">
+                <label for="category" class="form-label">Selecione a categoria:</label>
+                <select class="form-select" id="category" name="category">
+                    <option value="random">Frases Aleatórias</option>
+                    <option value="Verbos de Cozinha">Verbos de Cozinha</option>
+                    <option value="Verbos com Santé">Verbos de Saúde</option>
+                    <option value="Dans le sport">Verbos do Esporte</option>
+                    <option value="À la recherche d'un appartement à louer">À procura de um apartamento para alugar</option>
+                    <option value="À la pharmacie">Na farmácia</option>
+                    <option value="À la salle de sport">Na academia</option>
+                    <option value="Au supermarché">No supermercado</option>
+                    <option value="Achetant des vêtements">Comprando roupas</option>
+                    <option value="Au restaurant - Commander de la nourriture">No restaurante - Pedindo comida</option>
+                    <option value="Chez le coiffeur">No cabeleireiro</option>
+                    <option value="Réserver un hôtel">Reservar um hotel</option>
+                    <option value="entretien d'embauche">Entrevista de emprego</option>
+                </select>
                 <div class="d-grid gap-2">
-                    <p id="statusMessage"
-                        style="display: none; font-weight: bold; color: red;text-align: center; font-weight: 12px;"></p>
+                    <p id="statusMessage" style="display: none; font-weight: bold; color: red;text-align: center; font-weight: 12px;"></p>
                     <button class="btn btn-danger" id="recordButton" onclick="toggleRecording()">
                         <i class="material-icons" id="recordIcon">mic</i>
                     </button>
-                    <button class="btn btn-secondary" id="speakButton" onclick="speakText()">Ouvir a frase</button>
-                    <button class="btn btn-success" id="generateButton" onclick="generateSentence()">Gerar uma
-                        frase</button>
-                    <button class="btn btn-primary" id="translateButton" onclick="translateText()">Traduzir o
-                        texto</button>
+                    <button class="btn btn-secondary" id="speakButton" onclick="speakText()">Ouvir o texto</button>
+                    <button class="btn btn-success" id="generateButton" onclick="generateSentence()">Gerar uma frase</button>
+                    <button class="btn btn-primary" id="translateButton" onclick="translateText()">Traduzir o texto</button>
                 </div>
-                <!-- Elemento para exibir as mensagens de status -->
 
                 <div class="uploading-message mt-3" id="uploadingMessage">
-                    <span id="uploadingText">Enviando audio.. espere</span>
-
+                    <span id="uploadingText">Enviando áudio... Aguarde.</span>
+                    <progress id="uploadProgress" value="0" max="100" style="width: 100%;"></progress>
                 </div>
 
                 <div class="result mt-4">
                     <h3>Feedback:</h3>
-                    <p>Taxa de acerto na pronuncia : <span id="ratio"></span>%</p>
+                    <p>Taxa de sucesso na pronúncia: <span id="ratio"></span>%</p>
                     <div class="diff" id="diff"></div>
                     <br />
-                    <p>Taxa de completude da frase: <span id="completeness"></span>%</p>
+                    <p>Taxa de conclusão: <span id="completeness"></span>%</p>
                 </div>
                 <div id="audioContainer" class="mt-4"></div>
                 <div class="mt-4">
-                    <h3>Graficos de performance dia a dia:</h3>
+                    <h3>Gráficos de Desempenho:</h3>
                     <img id="performanceGraph" src="/performance" class="img-fluid" alt="Gráfico de Desempenho">
                 </div>
             </div>
             <div class="feedback-box" id="feedbackBox">
-                <p id="feedbackContent">Clique para ver a pronuncia correta.</p>
+                <p id="feedbackContent">Clique em uma palavra para ver sua pronúncia.</p>
             </div>
         </div>
     </div>
+</div>
+
 
     <script>
 
