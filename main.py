@@ -351,7 +351,7 @@ def get_sentence():
         if category == 'random':
             if random_sentences:
                 sentence = random.choice(random_sentences)
-                sentence_text = remove_punctuation_end(sentence.get('en_sentence', "Sentence not found."))
+                sentence_text = sentence.get('en_sentence', "Sentence not found.")
             else:
                 return jsonify({"error": "No sentences available for random selection."}), 500
         else:
